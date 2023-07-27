@@ -1,0 +1,34 @@
+<ng-container *ngIf="isAuthenticated(); else unauthenticated">
+  <app-side-nav-outer-toolbar title="{{appInfo.title}}">
+    <!--<router-outlet></router-outlet>-->
+    <dx-data-grid id="gridContainer"
+                  [dataSource]="employees"
+                  keyExpr="ID"
+                  [showBorders]="true">
+      <dxi-column dataField="Prefix" [width]="70" caption="Title"></dxi-column>
+      <dxi-column dataField="FirstName"></dxi-column>
+      <dxi-column dataField="LastName"></dxi-column>y
+      <dxi-column dataField="Position" [width]="170"></dxi-column>
+      <dxi-column dataField="State" [width]="125"></dxi-column>
+      <dxi-column dataField="BirthDate" dataType="date"></dxi-column>
+      <dxo-master-detail [enabled]="true" template="detail"></dxo-master-detail>
+      <div *dxTemplate="let employee of 'detail'">
+        <div class="master-detail-caption">
+          {{
+      employee.data.FirstName + " " + employee.data.LastName + "'s Tasks:"
+          }}
+        </div>
+        <detail-grid [key]="employee.key"></detail-grid>
+      </div>
+    </dx-data-grid>
+    <app-footer>
+      Copyright © 2011-{{appInfo.currentYear}} {{appInfo.title}} Inc.
+      <br />
+      All trademarks or registered trademarks are property of their respective owners.
+    </app-footer>
+  </app-side-nav-outer-toolbar>
+</ng-container>
+
+<ng-template #unauthenticated>
+  <app-unauthenticated-content></app-unauthenticated-content>
+</ng-template>
